@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("sw.js").then(() => {
+                console.log("Service Worker registrado exitosamente.");
+            }).catch(error => {
+                console.error("Error al registrar Service Worker:", error);
+            });
+        }
+    </script>
+      
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recordatorio Pastilla AC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center h-screen bg-pink-300">
+    <div class="bg-orange-500 p-6 rounded-lg shadow-lg text-center w-80 text-white border-4 border-red-600">
+        <h1 class="text-3xl font-bold mb-4">¡Recordatorio! 💊</h1>
+        <p class="text-lg mb-4">Te recordaré tomar tu pastilla AC todos los días a las 23:00.</p>
+        <button onclick="requestNotificationPermission()" class="bg-red-600 text-white text-xl py-2 px-4 rounded hover:bg-red-700">
+            Activar Notificación
+        </button>
+        <p class="mt-4 text-md text-white">Deja la app abierta para recibir el aviso.</p>
+    </div>
+
+    <script>
+        function requestNotificationPermission() {
+            if ("Notification" in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        scheduleReminder();
+                    } else {
+                        alert("Para recibir notificaciones, permite el acceso en tu navegador.");
+                    }
+                });
+            } else {
+                alert("Tu navegador no soporta notificaciones.");
+            }
+        }
+
+        function scheduleReminder() {
+            setInterval(() => {
+                const now = new Date();
+                if (now.getHours() === 23 && now.getMinutes() === 0) {
+                    sendReminder();
+                }
+            }, 60000); // Verifica cada minuto
+        }
+
+        function sendReminder() {
+            if ("Notification" in window) {
+                new Notification("¡Es hora de tomar la pastilla AC! 💊");
+            }
+            
+            if ("vibrate" in navigator) {
+                navigator.vibrate([500, 200, 500]);
+            }
+        }
+    </script>
+</body>
+</html>
