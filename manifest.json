@@ -2,7 +2,7 @@
     "name": "Recordatorio Pastilla AC",
     "short_name": "Pastilla AC",
     "description": "Una PWA para recordarte tomar tu pastilla AC a las 23:00 con notificación y vibración.",
-    "start_url": "recordatorio.html",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#f87171",
     "theme_color": "#f87171",
